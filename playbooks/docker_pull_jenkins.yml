@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Docker pull jenkins
+    docker_image:
+      name: jenkins/jenkins
