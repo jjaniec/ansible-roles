@@ -7,7 +7,6 @@
       image: nginx
       ports:
         - "80:80"
-      command: sleep infinity
 
   - name: "Start basic ubuntu container"
     docker_container:
@@ -22,4 +21,4 @@
       ports:
         - "8080:8080"
         - "443:443"
-      command: sleep infinity
+        - "50000:50000"
