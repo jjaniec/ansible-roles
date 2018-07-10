@@ -1,0 +1,7 @@
+[containers]
+training-ubuntu
+training-jenkins
+training-nginx
+
+[containers:vars]
+ansible_connection=docker
