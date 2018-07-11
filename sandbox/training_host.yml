@@ -1,4 +1,12 @@
 ---
 - import_playbook: ../playbooks/pip_docker.yml
-- import_playbook: ../playbooks/docker_ubuntu.yml
-- import_playbook: ../playbooks/docker_centos.yml
+- hosts: localhost
+  tasks:
+  - include_tasks: ../playbooks/docker_deploy_image.yml
+    vars:
+      container_name: ubuntu
+      image_name: lepinkainen/ubuntu-python-base
+  - include_tasks: ../playbooks/docker_deploy_image.yml
+    vars:
+      container_name: centos
+      image_name: centos/python-35-centos7
