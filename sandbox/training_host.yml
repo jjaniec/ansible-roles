@@ -10,3 +10,8 @@
     vars:
       container_name: centos
       image_name: centos/python-35-centos7
+  - include_tasks: ../playbooks/docker_deploy_image.yml
+    vars:
+      container_name: nginx
+      image_name: nginx
+      ports: ["80:80"]

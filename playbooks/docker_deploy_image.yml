@@ -3,10 +3,18 @@
   docker_image:
     name: "{{ image_name }}"
 - name: "Start {{ container_name }} container"
+  when: ports is not defined
   docker_container:
     name: "{{ container_name }}"
     image: "{{ image_name }}"
     command: sleep infinity
+- name: "Start {{ container_name }} container w/ {{ ports }} ports rules"
+  when: ports is defined
+  docker_container:
+    name: "{{ container_name }}"
+    image: "{{ image_name }}"
+    command: sleep infinity
+    ports: "{{ ports }}"
 - name: "Add {{ container_name }} container to in-memory inventory"
   add_host:
     name: "{{ container_name }}"
