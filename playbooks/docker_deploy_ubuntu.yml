@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  vars:
+    container_name: ubuntu
+  tasks:
+  - name: "Docker pull {{ container_name }}"
+    docker_image:
+      name: ubuntu
+  - name: "Start {{ container_name }} container"
+    docker_container:
+      name: "{{ container_name }}"
+      image: ubuntu
+      command: sleep infinity
+  - name: "Add {{ container_name }} container to in-memory inventory"
+    add_host:
+      name: "{{ container_name }}"
+      ansible_connection: docker
+      groups: containers

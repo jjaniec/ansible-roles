@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  vars:
+    container_name: jenkins
+  tasks:
+  - name: Pull jenkins image
+    docker_image:
+      name: jenkins/jenkins
+  - name: Start jenkins container
+    docker_container:
+      name: "{{ container_name }}"
+      image: jenkins/jenkins
+      ports:
+        - "8080:8080"
+        - "443:443"
+        - "50000:50000"
+  - name: Add {{ container_name }} container to in-memory inventory
+    add_host:
+      name: "{{ container_name }}"
+      ansible_connection: docker
+      ansible_user: jenkins
+      groups: containers 
+
