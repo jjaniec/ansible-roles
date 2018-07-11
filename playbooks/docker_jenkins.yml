@@ -19,5 +19,4 @@
       name: "{{ container_name }}"
       ansible_connection: docker
       ansible_user: jenkins
-      groups: containers 
-
+      groups: containers

@@ -1,0 +1,7 @@
+[containers]
+ubuntu
+nginx
+jenkins
+
+[all:vars]
+ansible_connection=docker
