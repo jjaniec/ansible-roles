@@ -1,0 +1,5 @@
+- name: "Install curl with the yum package manager"
+  yum:
+    name: "curl"
+    state: present
+    update_cache: yes

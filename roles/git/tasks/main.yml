@@ -1,4 +1,4 @@
-- name: Run os specific yml file for python installation
+- name: Run os specific yml file for git installation
   import_tasks: apt.yml
   when: ansible_os_family|lower == 'debian'
 - import_tasks: yum.yml
