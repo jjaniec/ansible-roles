@@ -1,0 +1,5 @@
+- name: "Install git with the apt package manager"
+  apt:
+    name: "git"
+    state: present
+    update_cache: yes
