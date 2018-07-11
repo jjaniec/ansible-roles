@@ -1,7 +1,6 @@
 [containers]
 ubuntu
-nginx
-jenkins
+centos
 
-[all:vars]
+[containers:vars]
 ansible_connection=docker

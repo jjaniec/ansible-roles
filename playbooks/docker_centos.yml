@@ -1,17 +1,16 @@
 ---
 - hosts: localhost
   vars:
-    container_name: nginx
+    container_name: centos
   tasks:
   - name: Docker pull {{ container_name }}
     docker_image:
-      name: mobingi/ubuntu-nginx-python:3.5
-  - name: Start jenkins container
+      name: centos/python-35-centos7
+  - name: Start {{ container_name }} container
     docker_container:
       name: "{{ container_name }}"
-      image: mobingi/ubuntu-nginx-python:3.5
-      ports:
-        - "80:80"
+      image: centos/python-35-centos7
+      command: sleep infinity
   - name: Add {{ container_name }} container to in-memory inventory
     add_host:
       name: "{{ container_name }}"

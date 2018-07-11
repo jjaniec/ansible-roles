@@ -1,15 +1,15 @@
 ---
 - hosts: localhost
   vars:
-    container_name: ubuntu
+    container_name: alpine
   tasks:
   - name: "Docker pull {{ container_name }}"
     docker_image:
-      name: lepinkainen/ubuntu-python-base
+      name: jfloff/alpine-python:3.6
   - name: "Start {{ container_name }} container"
     docker_container:
       name: "{{ container_name }}"
-      image: lepinkainen/ubuntu-python-base
+      image: jfloff/alpine-python:3.6
       command: sleep infinity
   - name: "Add {{ container_name }} container to in-memory inventory"
     add_host:

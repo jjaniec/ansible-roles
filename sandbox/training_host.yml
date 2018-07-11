@@ -1,5 +1,4 @@
 ---
 - import_playbook: ../playbooks/pip_docker.yml
 - import_playbook: ../playbooks/docker_ubuntu.yml
-- import_playbook: ../playbooks/docker_jenkins.yml
-- import_playbook: ../playbooks/docker_nginx.yml
+- import_playbook: ../playbooks/docker_centos.yml

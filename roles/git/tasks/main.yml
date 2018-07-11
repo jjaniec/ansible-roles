@@ -1,7 +1,7 @@
 - name: Run os specific yml file for python installation
   import_tasks: apt.yml
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_os_family|lower == 'debian'
 - import_tasks: yum.yml
-  when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS'
+  when: ansible_os_family|lower == 'redhat'
 - import_tasks: pacman.yml
-  when: ansible_distribution == 'Archlinux'
+  when: ansible_os_family|lower == 'archlinux'
