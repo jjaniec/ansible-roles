@@ -1,0 +1,15 @@
+- name: Ensure ufw package is installed
+  apt:
+    name: "ufw"
+    state: present
+#- name: Disable everything and enable UFW
+#  ufw:
+#    state: enabled
+#    policy: disable
+- name: Set logging
+  ufw:
+    logging: on
+- name: Make sure ufw service is present and started
+  service:
+    name: ufw
+    state: started

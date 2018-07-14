@@ -1,0 +1,22 @@
+- apt:
+    name: "apache2"
+    state: present
+- name: Start the httpd service
+  service:
+    name: "apache2"
+    state: started
+- name: Give ufw role
+  include_role:
+    name: ufw
+#- name: Open port 80
+#  ufw:
+#    rule: allow
+#    port: 80
+#    proto: tcp
+# Doesn't work even with --privileged or
+# capabilities: ['NET_RAW', 'NET_ADMIN'] :(
+# todo: try w/ vagrant
+- name: Restart the ufw service
+  service:
+    name: ufw
+    state: restarted

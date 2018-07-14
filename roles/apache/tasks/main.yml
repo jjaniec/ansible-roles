@@ -1,0 +1,5 @@
+- name: Run os specific yml file for apache installation
+  import_tasks: apt.yml
+  when: ansible_os_family|lower == 'debian'
+- import_tasks: yum.yml
+  when: ansible_os_family|lower == 'redhat'
