@@ -1,4 +1,5 @@
-- apt:
+- name: Ensure apache is installed
+  apt:
     name: "apache2"
     state: present
 - name: Start the httpd service

@@ -1,6 +1,8 @@
 [containers]
-ubuntu
+ubuntu1
+ubuntu2
 centos
 
 [containers:vars]
 ansible_connection=docker
+ansible_user=root

@@ -1,0 +1,2 @@
+sample_app_git_url: https://github.com/shower/shower.git # project to deploy url
+sample_app_dest: /var/www/html/shower

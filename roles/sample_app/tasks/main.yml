@@ -1,0 +1,7 @@
+---
+- name: "Clone sample app to {{ sample_app_dest }}"
+  git:
+    repo: "{{ sample_app_git_url }}"
+    dest: "{{ sample_app_dest }}"
+  notify:
+    - Restart apache
