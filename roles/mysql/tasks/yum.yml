@@ -1,0 +1,5 @@
+- name: "Install mysql-server with the yum package manager"
+  yum:
+    name: "mysql-server"
+    state: present
+    update_cache: yes
