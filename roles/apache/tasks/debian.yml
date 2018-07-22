@@ -6,9 +6,6 @@
   service:
     name: "apache2"
     state: started
-- name: Give ufw role
-  include_role:
-    name: ufw
 #- name: Open port 80
 #  ufw:
 #    rule: allow
