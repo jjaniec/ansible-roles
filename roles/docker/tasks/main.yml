@@ -1,0 +1,3 @@
+- name: Run os specific yml file for docker installation
+  import_tasks: apt.yml
+  when: ansible_os_family|lower == 'debian'
