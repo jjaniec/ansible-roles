@@ -1,0 +1,11 @@
+- name: Install php7 and usefull extensions w/ apt
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  with_items:
+    - php7.0
+    - php7.0-mysql
+    - php7.0-gd
+    - php-ssh2
+    - php7.0-mcrypt

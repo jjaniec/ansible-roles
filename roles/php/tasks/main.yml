@@ -1,0 +1,3 @@
+- name: Run os specific yml file for php installation
+  import_tasks: debian.yml
+  when: ansible_os_family|lower == 'debian'
