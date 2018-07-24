@@ -4,12 +4,12 @@
   tasks:
   - include_tasks: ../playbooks/docker_deploy_image.yml
     vars:
-      container_name: ubuntu1
-      image_name: lepinkainen/ubuntu-python-base
+      container_name: debian1
+      image_name:  kageurufu/debian-python
       ports: ["80:80"]
   - include_tasks: ../playbooks/docker_deploy_image.yml
     vars:
-      container_name: ubuntu2
+      container_name: ubuntu1
       image_name: lepinkainen/ubuntu-python-base
       ports: ["81:80"]
   - include_tasks: ../playbooks/docker_deploy_image.yml
