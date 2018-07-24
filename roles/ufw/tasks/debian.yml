@@ -2,14 +2,18 @@
   apt:
     name: "ufw"
     state: present
-#- name: Disable everything and enable UFW
-#  ufw:
-#    state: enabled
-#    policy: disable
-#- name: Set logging
-#  ufw:
-#    logging: on
+  become: yes
+- name: Disable everything and enable UFW
+  ufw:
+    state: enabled
+    policy: reject
+  become: yes
+- name: Set logging
+  ufw:
+    logging: on
+  become: yes
 - name: Make sure ufw service is present and started
   service:
     name: ufw
     state: started
+  become: yes

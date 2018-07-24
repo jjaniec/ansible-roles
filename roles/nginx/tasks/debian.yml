@@ -17,4 +17,5 @@
   become: yes
   notify:
     - Restart the ufw service
+  when: ansible_virtualization_type != 'docker'
 # Last task does not work w/ docker containers
