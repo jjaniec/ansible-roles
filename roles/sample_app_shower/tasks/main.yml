@@ -3,5 +3,6 @@
   git:
     repo: "{{ sample_app_git_url }}"
     dest: "{{ sample_app_dest }}"
+  become: yes
   notify:
-    - Restart apache
+    - Restart apache service

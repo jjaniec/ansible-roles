@@ -6,6 +6,8 @@
   service:
     name: httpd
     state: started
+    enable: yes
+  become: yes
 #- name: Open port 80
 #  firewalld:
 #    service: http

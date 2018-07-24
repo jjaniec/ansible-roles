@@ -1,5 +1,5 @@
 ---
-- name: "Docker pull {{ container_name }}"
+- name: "Docker pull {{ image_name }}"
   docker_image:
     name: "{{ image_name }}"
 - name: "Start {{ container_name }} container"

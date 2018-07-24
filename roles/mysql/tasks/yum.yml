@@ -3,3 +3,5 @@
     name: "mysql-server"
     state: present
     update_cache: yes
+  become: yes
+# todo: finish config for redhat
