@@ -2,4 +2,10 @@
 - name: Restart apache service
   service:
     name: "apache2"
+    state: restarted
+  become: yes
+- name: Reload apache service
+  service:
+    name: "apache2"
     state: reloaded
+  become: yes

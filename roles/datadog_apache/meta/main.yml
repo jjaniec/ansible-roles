@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: datadog_agent, tags: "datadog_agent", become: yes }

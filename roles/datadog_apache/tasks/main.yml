@@ -1,0 +1,26 @@
+---
+- name: Export status module config template
+  template:
+    src: mod-status.conf.j2
+    dest: /etc/apache2/mods-available/status.conf
+  become: yes
+
+- name: Enable status apache module
+  file:
+    src: "{{ item.path }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { path: '/etc/apache2/mods-available/status.load', dest: '/etc/apache2/mods-enabled/status.load'}
+    - { path: '/etc/apache2/mods-available/status.conf', dest: '/etc/apache2/mods-enabled/status.conf'}
+  become: yes
+  notify:
+    - Reload apache service
+
+- name: Add apache integration to datadog config file
+  template:
+    src: apache.yaml.j2
+    dest: /etc/datadog-agent/conf.d/apache.d/conf.yaml
+  become: yes
+  notify:
+    - Restart datadog-agent service

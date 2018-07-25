@@ -3,3 +3,6 @@
   when: ansible_os_family|lower == 'debian'
 - import_tasks: redhat.yml
   when: ansible_os_family|lower == 'redhat'
+- include_role:
+    name: datadog_apache
+  when: datadog_api_key is defined and datadog_api_key != ""
