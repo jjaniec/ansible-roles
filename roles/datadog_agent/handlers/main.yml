@@ -1,0 +1,6 @@
+---
+- name: Restart datadog-agent service
+  service:
+    name: datadog-agent
+    state: restarted
+  become: yes

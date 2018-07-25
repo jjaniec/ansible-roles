@@ -1,4 +1,3 @@
 ---
 dependencies:
   - { role: ufw, tags: "ufw" }
-  - { role: datadog_apache, tags: "datadog_apache" }

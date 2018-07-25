@@ -3,5 +3,5 @@ wp_mysql_db: wordpress
 wp_mysql_user: wordpress
 wp_mysql_password: password
 wp_dl_link: http://wordpress.org/latest.tar.gz
-wp_dl_path: /tmp
+wp_dl_path: /tmp/wordpress
 wp_path: /var/www/html

@@ -1,2 +1,2 @@
 ---
-datadog_api_key: "{{ lookup('env','DATADOG_API_KEY') }}"
+datadog_api_key: "{{ lookup('env','DD_API_KEY') }}"

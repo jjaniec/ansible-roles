@@ -12,20 +12,9 @@
     mode: 0440
   when: stat_result.stat.exists == False
 
-#  stat:
-#      path: {{ wp_dl_path }}
-#  register: file_details
-#  debug:
-#      msg: "{{ wp_dl_path }} already exists"
-#  when: file_details.stat.exists
-
-- name: "Get files of {{ wp_dl_path }}"
-  shell: "ls {{ wp_dl_path }}/wordpress*.tar.gz"
-  register: wp_dl_path_files
-
-- name: "Extract {{ wp_dl_path_files.stdout_lines[0] }} to {{ wp_path }}"
+- name: "Extract {{ wp_dl_path }} to {{ wp_path }}"
   unarchive:
-    src: "{{ wp_dl_path_files.stdout_lines[0] }}"
+    src: "{{ wp_dl_path }}"
     dest: "{{ wp_path }}"
     remote_src: yes
   become: yes

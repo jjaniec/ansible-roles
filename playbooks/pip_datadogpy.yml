@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+  - name: Ensure datadogpy is installed
+    pip:
+      name: datadogpy
+      state: present
+    become: yes
