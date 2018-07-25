@@ -1,0 +1,6 @@
+sudo: true
+notifications:
+  email: false
+before_install:
+    - sudo pip2 install ansible-lint
+script: ansible-lint $(find -name '*yml')
