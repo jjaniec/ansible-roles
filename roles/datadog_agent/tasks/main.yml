@@ -1,0 +1,7 @@
+---
+- debug:
+    msg: "Warn: DATADOG_API_KEY env variable is required to use datadog agent... Skipping"
+  when: datadog_api_key is not defined or datadog_api_key == ""
+- include_role:
+    name: Datadog.datadog
+  when: datadog_api_key is defined and datadog_api_key != ""
