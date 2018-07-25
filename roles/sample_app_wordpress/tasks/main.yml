@@ -1,10 +1,17 @@
 ---
+- name: "Check if {{ wp_dl_path }} already exists"
+  stat:
+    path: "{{ wp_dl_path }}"
+  register: stat_result
+
 - name: "Download wordpress at {{ wp_dl_link }} to {{ wp_dl_path }}"
   get_url:
     url: "{{ wp_dl_link }}"
     dest: "{{ wp_dl_path }}"
     validate_certs: no
     mode: 0440
+  when: stat_result.stat.exists == False
+
 #  stat:
 #      path: {{ wp_dl_path }}
 #  register: file_details
@@ -54,3 +61,9 @@
   become: yes
   notify:
     - Restart mysql service
+
+- name: Export wp-config.php template
+  template:
+    src: wp-config.php.j2
+    dest: /var/www/html/wordpress/wp-config.php
+  become: yes

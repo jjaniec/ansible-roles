@@ -3,7 +3,7 @@
     name: "ufw"
     state: present
   become: yes
-- name: Disable everything and enable UFW
+- name: Reject everything and enable UFW
   ufw:
     state: enabled
     policy: reject
@@ -11,6 +11,12 @@
 - name: Set logging
   ufw:
     logging: on
+  become: yes
+- name: Open ssh port
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
   become: yes
 - name: Make sure ufw service is present and started
   service:
