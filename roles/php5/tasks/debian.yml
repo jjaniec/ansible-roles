@@ -1,3 +1,4 @@
+---
 - name: Install php5 and usefull extensions w/ apt
   apt:
     name: "{{ item }}"

@@ -7,6 +7,12 @@
   action: >
    {{ ansible_pkg_mgr }} name=python-mysqldb state=present update_cache=yes
   become: yes
+- name: Start mysql service
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+  become: yes
 - name: Configure my.cnf
   copy: src=./files/my.cnf
         dest=/etc/mysql/my.cnf
@@ -15,19 +21,4 @@
         mode=0640
   become: yes
   notify:
-    - start mysql
-- name: Add mysql-user
-  mysql_user: name=mysql_service
-              password=12345
-              priv=*.*:ALL
-              state=present
-  become: yes
-  notify:
-    - restart mysql
-
-#- name: Start mysql service
-#  service:
-#    name: mysql
-#    state: started
-##    enabled: yes
-# become: yes
+    - Restart mysql service

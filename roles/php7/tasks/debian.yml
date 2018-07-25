@@ -1,3 +1,4 @@
+---
 - name: Add ppa:ondrej/php for ubuntu trusty
   apt_repository:
     repo: ppa:ondrej/php

@@ -1,8 +1,8 @@
-- name: start mysql
-  service: name=mysql
-           enabled=yes
-           state=started
-- name: restart mysql
-  service: name=mysql
-           enabled=yes
-           state=restarted
+- name: Restart mysql service
+  service:
+    name: mysql
+    enabled: yes
+    state: reloaded
+  retries: 3
+  delay: 3
+  become: yes
