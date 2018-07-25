@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: apache, tags: "apache" }
+  - { role: mysql, tags: "mysql" }
+  - { role: php5, tags: "php5" }

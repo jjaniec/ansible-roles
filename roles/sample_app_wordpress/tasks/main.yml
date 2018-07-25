@@ -1,0 +1,56 @@
+---
+- name: "Download wordpress at {{ wp_dl_link }} to {{ wp_dl_path }}"
+  get_url:
+    url: "{{ wp_dl_link }}"
+    dest: "{{ wp_dl_path }}"
+    validate_certs: no
+    mode: 0440
+#  stat:
+#      path: {{ wp_dl_path }}
+#  register: file_details
+#  debug:
+#      msg: "{{ wp_dl_path }} already exists"
+#  when: file_details.stat.exists
+
+- name: "Get files of {{ wp_dl_path }}"
+  shell: "ls {{ wp_dl_path }}/wordpress*.tar.gz"
+  register: wp_dl_path_files
+
+- name: "Extract {{ wp_dl_path_files.stdout_lines[0] }} to {{ wp_path }}"
+  unarchive:
+    src: "{{ wp_dl_path_files.stdout_lines[0] }}"
+    dest: "{{ wp_path }}"
+    remote_src: yes
+  become: yes
+
+- name: "Check if wordpress is present in {{ wp_path }}"
+  stat:
+    path: "{{ wp_path }}"
+  register: stat_result
+
+- name: Ensure php5-gd, libssh2-php and python-mysqldb are installed
+  action: >
+    {{ ansible_pkg_mgr }} name="{{ item }}" state=present
+  with_items:
+    - php5-gd
+    - libssh2-php
+    - python-mysqldb
+  become: yes
+  notify:
+    - Restart apache service
+
+- name: Create mysql wordpress database
+  mysql_db:
+    name: "{{ wp_mysql_db }}"
+    state: present
+  become: yes
+
+- name: Create mysql wordpress user
+  mysql_user:
+    name: "{{ wp_mysql_user }}"
+    password: "{{ wp_mysql_password }}"
+    priv: "*.*:ALL"
+    state: present
+  become: yes
+  notify:
+    - Restart mysql service
