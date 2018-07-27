@@ -1,3 +1,4 @@
 ---
 dependencies:
+  - { role: apache, tags: apache }
   - { role: datadog_agent, tags: "datadog_agent", become: yes }

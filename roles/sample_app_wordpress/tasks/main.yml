@@ -39,6 +39,7 @@
   mysql_db:
     name: "{{ wp_mysql_db }}"
     state: present
+    login_password: "{{ mysql_root_password }}"
   become: yes
 
 - name: Create mysql wordpress user
@@ -47,6 +48,7 @@
     password: "{{ wp_mysql_password }}"
     priv: "*.*:ALL"
     state: present
+    login_password: "{{ mysql_root_password }}"
   become: yes
   notify:
     - Restart mysql service

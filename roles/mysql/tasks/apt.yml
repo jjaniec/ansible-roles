@@ -1,5 +1,0 @@
-- name: "Install mysql-server with the apt package manager"
-  apt:
-    name: "mysql-server"
-    state: present
-  become: yes

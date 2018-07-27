@@ -7,18 +7,24 @@
   action: >
    {{ ansible_pkg_mgr }} name=python-mysqldb state=present update_cache=yes
   become: yes
-- name: Start mysql service
+- name: Start the MySQL service
   service:
     name: mysql
     state: started
-    enabled: yes
+    enabled: true
   become: yes
-- name: Configure my.cnf
-  copy: src=./files/my.cnf
-        dest=/etc/mysql/my.cnf
-        owner=root
-        group=root
-        mode=0640
+- name: Update mysql root password for all root accounts
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
   become: yes
-  notify:
-    - Restart mysql service
