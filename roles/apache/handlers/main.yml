@@ -9,3 +9,8 @@
     name: "apache2"
     state: reloaded
   become: yes
+- name: Restart httpd service
+  service:
+    name: "httpd"
+    state: restarted
+  become: yes

@@ -1,5 +1,0 @@
-- name: "Install git with the yum package manager"
-  yum:
-    name: "git"
-    state: present
-    update_cache: yes

@@ -1,8 +1,4 @@
-- name: Install nginx w/ apt
-  apt:
-    name: nginx
-    state: present
-  become: yes
+---
 - name: Start & enable nginx service
   service:
     name: nginx
@@ -18,4 +14,3 @@
   notify:
     - Restart the ufw service
   when: ansible_virtualization_type != 'docker'
-# Last task does not work w/ docker containers

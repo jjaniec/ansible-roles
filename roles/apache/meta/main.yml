@@ -1,3 +1,0 @@
----
-dependencies:
-  - { role: ufw, tags: "ufw" }

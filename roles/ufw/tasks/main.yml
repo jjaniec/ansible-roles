@@ -1,3 +1,3 @@
-- name: Ensure ufw is installed
+- name: Setup ufw for debian systems
   import_tasks: debian.yml
   when: ansible_os_family|lower == 'debian' and ansible_virtualization_type != 'docker'

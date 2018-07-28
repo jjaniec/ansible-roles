@@ -1,7 +1,0 @@
-- name: "Install docker w/ apt"
-  apt:
-    name: "docker"
-    state: present
-    update_cache: yes
-  notify:
-    - Start docker service

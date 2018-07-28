@@ -1,5 +1,5 @@
-- name: Run os specific yml file for curl installation
-  import_tasks: apt.yml
-  when: ansible_os_family|lower == 'debian'
-- import_tasks: yum.yml
-  when: ansible_os_family|lower == 'redhat'
+---
+- name: "Ensure curl is installed"
+  action: >
+    {{ ansible_pkg_mgr }} name=curl state=present update_cache=yes
+  become: yes

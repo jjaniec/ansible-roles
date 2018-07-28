@@ -1,8 +1,7 @@
+---
 - name: Restart mysql service
   service:
     name: mysql
     enabled: yes
-    state: reloaded
-  retries: 3
-  delay: 3
+    state: restarted
   become: yes

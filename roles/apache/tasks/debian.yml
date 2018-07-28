@@ -8,6 +8,10 @@
     name: "apache2"
     state: started
   become: yes
+- name: Include ufw role
+  include_role:
+    name: ufw
+  when: ansible_os_family|lower != 'redhat'
 - name: Open port 80
   ufw:
     rule: allow
@@ -17,4 +21,3 @@
   notify:
     - Restart ufw service
   when: ansible_virtualization_type != 'docker'
-# Last tasks does not work w/ docker containers

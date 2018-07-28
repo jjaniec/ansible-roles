@@ -1,5 +1,0 @@
-- name: "Install git with the pacman package manager"
-  pacman:
-    name: "git"
-    state: present
-    update_cache: yes

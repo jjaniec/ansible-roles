@@ -1,3 +1,8 @@
-- name: Run os specific yml file for nginx installation
+---
+- name: Install nginx w/ {{ ansible_pkg_mgr }}
+  action: >
+    {{ ansible_pkg_mgr }} name=nginx state=present update_cache=yes
+  become: yes
+- name: Run os specific yml file for nginx setup
   import_tasks: debian.yml
   when: ansible_os_family|lower == 'debian'

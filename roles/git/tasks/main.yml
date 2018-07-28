@@ -1,7 +1,5 @@
-- name: Run os specific yml file for git installation
-  import_tasks: apt.yml
-  when: ansible_os_family|lower == 'debian'
-- import_tasks: yum.yml
-  when: ansible_os_family|lower == 'redhat'
-- import_tasks: pacman.yml
-  when: ansible_os_family|lower == 'archlinux'
+---
+- name: "Ensure git is installed"
+  action: >
+    {{ ansible_pkg_mgr }} name=git state=present update_cache=yes
+  become: yes

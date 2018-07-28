@@ -8,16 +8,19 @@
     state: enabled
     policy: reject
   become: yes
+  when: ansible_virtualization_type != 'docker'
 - name: Set logging
   ufw:
     logging: on
   become: yes
+  when: ansible_virtualization_type != 'docker'
 - name: Open ssh port
   ufw:
     rule: allow
     port: 22
     proto: tcp
   become: yes
+  when: ansible_virtualization_type != 'docker'
 - name: Make sure ufw service is present and started
   service:
     name: ufw
