@@ -1,0 +1,32 @@
+---
+#- name: "Create datadog@{{ db_ip }} user as '{{ datadog_mysql_password }}'"
+#  shell: "mysql -e \"CREATE USER 'datadog'@'{{ db_ip }}' IDENTIFIED BY '{{ datadog_mysql_password }}';\" -p{{ mysql_root_password }}"
+#  become: yes
+#  ignore_errors: yes
+
+# "mysql -e \"GRANT REPLICATION CLIENT ON *.* TO 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5;\" -p{{ mysql_root_password }}"
+# "mysql -e "GRANT PROCESS ON *.* TO 'datadog'@'localhost';""
+# "mysql -e "GRANT SELECT ON performance_schema.* TO 'datadog'@'localhost';""
+
+- name: Grant REPLICATION CLIENT and PROCESS on all DBs and SELECT on performance_schema DB for datadog user
+  mysql_user:
+    name: 'datadog'
+    password: "{{ datadog_mysql_password }}"
+    priv: "*.*:PROCESS,REPLICATION CLIENT/performance_schema.*:SELECT"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_host: "{{ db_ip }}"
+    append_privs: yes
+  become: yes
+  notify:
+    - Restart mysql service
+    - Restart datadog-agent service
+
+- name: Add mysql integration to datadog-agent config files
+  template:
+    src: mysql.yaml.j2
+    dest: /etc/datadog-agent/conf.d/mysql.d/conf.yaml
+  become: yes
+  notify:
+    - Restart datadog-agent service
