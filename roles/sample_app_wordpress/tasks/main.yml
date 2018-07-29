@@ -24,16 +24,29 @@
     path: "{{ wp_path }}"
   register: stat_result
 
-- name: Ensure php5-gd, libssh2-php and python-mysqldb are installed
+- name: Ensure php5-gd, libssh2-php and python-mysqldb are installed on debian systems
   action: >
     {{ ansible_pkg_mgr }} name="{{ item }}" state=present
   with_items:
-    - php5-gd
-    - libssh2-php
+    - php7.0-gd
+    - php-ssh2
     - python-mysqldb
   become: yes
   notify:
     - Restart apache service
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure php-gd, php-ssh2 and MySQL-python are installed on redhat systems
+  action: >
+    {{ ansible_pkg_mgr }} name="{{ item }}" state=present
+  with_items:
+    - php-gd
+    - php-ssh2
+    - MySQL-python
+  become: yes
+  notify:
+    - Restart apache service
+  when: ansible_os_family == 'RedHat'
 
 - name: Create mysql wordpress database
   mysql_db:

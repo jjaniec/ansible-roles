@@ -1,4 +1,5 @@
-- name: Install httpd
+---
+- name: Install httpd for redhat systems
   yum:
     name: "httpd"
     state: present
@@ -6,14 +7,17 @@
   service:
     name: httpd
     state: started
-    enable: yes
+    enabled: yes
   become: yes
-#- name: Open port 80
-#  firewalld:
-#    service: http
-#    permanent: true
-#    state: enabled
+- name: Open port 80
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+  become: yes
+  when: ansible_virtualization_type != 'docker'
 - name: Restart the firewalld service
   service:
     name: firewalld
     state: restarted
+  become: yes

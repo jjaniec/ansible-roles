@@ -1,4 +1,5 @@
-- name: Ensure apache is installed
+---
+- name: Ensure apache is installed on debian systems
   apt:
     name: "apache2"
     state: present

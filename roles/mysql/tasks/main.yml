@@ -1,18 +1,50 @@
 ---
-- name: Install MySQL
+- name: Install MySQL for debian systems
   action: >
    {{ ansible_pkg_mgr }} name=mysql-server state=present update_cache=yes
   become: yes
-- name: Install python-mysqldb
+  when: ansible_os_family|lower == 'debian'
+
+- name: Install mysql repo for redhat systems
+  become: true
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+  when: ansible_os_family|lower == 'redhat'
+
+- name: Install MySQL for redhat systems
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql-server
+  become: yes
+  when: ansible_os_family|lower == 'redhat'
+
+- name: Install python-mysqldb on debian systems
   action: >
    {{ ansible_pkg_mgr }} name=python-mysqldb state=present update_cache=yes
   become: yes
+  when: ansible_os_family|lower == 'debian'
+
+- name: install mysql-python on redhat
+  yum:
+    name: MySQL-python
+    state: present
+    update_cache: yes
+  become: yes
+  when: ansible_os_family|lower == 'redhat'
+
+
 - name: Start the MySQL service
   service:
     name: mysql
     state: started
     enabled: true
   become: yes
+
 - name: Update mysql root password for all root accounts
   mysql_user:
     name: root

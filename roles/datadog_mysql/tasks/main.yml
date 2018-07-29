@@ -1,13 +1,4 @@
 ---
-#- name: "Create datadog@{{ db_ip }} user as '{{ datadog_mysql_password }}'"
-#  shell: "mysql -e \"CREATE USER 'datadog'@'{{ db_ip }}' IDENTIFIED BY '{{ datadog_mysql_password }}';\" -p{{ mysql_root_password }}"
-#  become: yes
-#  ignore_errors: yes
-
-# "mysql -e \"GRANT REPLICATION CLIENT ON *.* TO 'datadog'@'localhost' WITH MAX_USER_CONNECTIONS 5;\" -p{{ mysql_root_password }}"
-# "mysql -e "GRANT PROCESS ON *.* TO 'datadog'@'localhost';""
-# "mysql -e "GRANT SELECT ON performance_schema.* TO 'datadog'@'localhost';""
-
 - name: Grant REPLICATION CLIENT and PROCESS on all DBs and SELECT on performance_schema DB for datadog user
   mysql_user:
     name: 'datadog'
