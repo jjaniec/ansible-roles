@@ -6,9 +6,9 @@
   become: yes
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'trusty'
 
-- name: Install php7 basic packages
+- name: Install php7 basic packages on debian systems
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+    apt name={{ item }} state=present update_cache=yes
   with_items:
     - php7.0
     - php7.0-mysql
@@ -16,3 +16,37 @@
     - php-ssh2
     - php7.0-mcrypt
   become: yes
+  when: ansible_os_family|lower == 'debian'
+
+- name: Install the remi and ius repo from remote repo on redhat systems
+  become: true
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - "http://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+    - "https://centos{{ ansible_distribution_major_version }}.iuscommunity.org/ius-release.rpm"
+  when: ansible_os_family|lower == 'redhat'
+
+- name: Install php7 basic packages for redhat systems
+  action: >
+    yum name={{ item }} state=present enablerepo=remi-php70 update_cache=yes
+  with_items:
+    - php
+    - php-mysql
+    - php-gd
+    - php-ssh2
+    - php-mcrypt
+  become: yes
+  when: ansible_os_family|lower == 'redhat'
+
+- name: Install php7 for arch systems
+  action: >
+    pacman name={{ item }} state=present update_cache=yes
+  with_items:
+    - php
+    - php-apache
+    - php70-mcrypt
+    - php-ssh
+    - php-gd
+  become: yes
+  when: ansible_os_family|lower == 'archlinux'

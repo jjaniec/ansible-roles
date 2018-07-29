@@ -1,13 +1,9 @@
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "ubuntu/trusty64"
-
-  config.vm.define "ubuntu", primary: true do |ubuntu|
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/trusty64"
     ubuntu.vm.network "private_network", ip: "192.168.2.99"
     ubuntu.vm.synced_folder ".", "/ubuntu"
-    #config.ssh.username = 'root'
-    #config.ssh.password = 'root'
-    #config.ssh.insert_key = 'true'
     ubuntu.vm.network "forwarded_port", guest: 80, host: 8080
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/me.pub"
     ubuntu.vm.provision "shell", privileged: false, inline: <<-EOF
@@ -27,4 +23,22 @@ Vagrant.configure(2) do |config|
       echo "cd /ubuntu" >> ~/.profile
     EOF
   end
+
+  config.vm.define "centos" do |centos|
+    centos.vm.box = "centos/7"
+    centos.vm.network "private_network", ip: "192.168.2.100"
+    centos.ssh.insert_key = 'true'
+    centos.vm.network "forwarded_port", guest: 80, host: 8081
+    centos.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/me.pub"
+    centos.vm.provision "shell", privileged: false, inline: <<-EOF
+      set -e
+
+      sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+      sudo yum -y update
+      sudo yum install -y python36u python36u-libs python36u-devel python36u-pip
+
+      echo "cd /centos" >> ~/.profile
+    EOF
+  end
 end
+
