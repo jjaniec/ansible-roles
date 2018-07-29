@@ -1,0 +1,20 @@
+---
+- name: Add ppa:ondrej/php for ubuntu trusty
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+  become: yes
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'trusty'
+
+- name: Install php7 basic packages on debian systems
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php7.0
+    - php7.0-mysql
+    - php7.0-gd
+    - php-ssh2
+    - php7.0-mcrypt
+  become: yes

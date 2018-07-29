@@ -1,0 +1,12 @@
+---
+- name: Install php5 for arch systems
+  pacman:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php53
+    - php53-mcrypt
+    - php-ssh
+    - php53-gd
+  become: yes

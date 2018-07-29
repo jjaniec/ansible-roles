@@ -1,0 +1,23 @@
+---
+- name: Install mysql repo on redhat systems
+  become: true
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+
+- name: Install MySQL on redhat systems
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql-server
+  become: yes
+
+- name: install mysql-python on redhat systems
+  yum:
+    name: MySQL-python
+    state: present
+    update_cache: yes
+  become: yes

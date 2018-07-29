@@ -1,0 +1,22 @@
+---
+- name: Install the remi and ius repo from remote repo on redhat systems
+  become: true
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - "http://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+    - "https://centos{{ ansible_distribution_major_version }}.iuscommunity.org/ius-release.rpm"
+
+- name: Install php7 basic packages for redhat systems
+  yum:
+    name: "{{ item }}"
+    state: present
+    enablerepo: remi-php70
+    update_cache: yes
+  with_items:
+    - php
+    - php-mysql
+    - php-gd
+    - php-ssh2
+    - php-mcrypt
+  become: yes

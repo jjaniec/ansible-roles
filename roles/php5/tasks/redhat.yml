@@ -1,0 +1,11 @@
+---
+- name: Install php5 for redhat systems
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php
+    - php-mysql
+    - php-mcrypt
+  become: yes

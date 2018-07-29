@@ -1,0 +1,13 @@
+---
+- name: Install php7 for arch systems
+  pacman:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php
+#    - php-apache
+#    - php70-mcrypt
+#    - php-ssh
+#    - php-gd
+  become: yes
