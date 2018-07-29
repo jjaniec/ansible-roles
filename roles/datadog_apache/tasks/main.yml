@@ -1,4 +1,10 @@
 ---
+- name: Import current os vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - vars/"{{ ansible_os_family|lower }}.yml"
+    - vars/default.yml
+
 - name: Export status module config template
   template:
     src: mod-status.conf.j2
@@ -32,6 +38,21 @@
   template:
     src: apache.yaml.j2
     dest: /etc/datadog-agent/conf.d/apache.d/conf.yaml
+  become: yes
+
+- name: Update datadog's apache module config file for logs collection
+  blockinfile:
+    path: /etc/datadog-agent/datadog.yaml
+    block: "{{ lookup('template', 'datadog.yaml.j2') }}"
+    marker: "#{mark} ANSIBLE MANAGED BLOCK - datadog_apache/main.yml:49"
+  become: yes
+
+- name: Ensure apache's logs are readable by datadog agent
+  file:
+    path: /var/log/{{ log_dir_name }}
+    state: directory
+    mode: 0755
+    recurse: yes
   become: yes
   notify:
     - Restart datadog-agent service

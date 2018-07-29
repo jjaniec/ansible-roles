@@ -1,0 +1,5 @@
+---
+log_dir_name: apache2
+access_log_name: access.log
+error_log_name: error.log
+service_name: apache2

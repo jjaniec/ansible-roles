@@ -12,6 +12,7 @@
     block: "{{ lookup('template', 'datadog.yaml.j2') }}"
     dest: /etc/datadog-agent/datadog.yaml
     state: present
+    marker: "#{mark} ANSIBLE MANAGED BLOCK - datadog_agent/main.yml:15"
   become: yes
   notify:
     - Restart datadog-agent service
