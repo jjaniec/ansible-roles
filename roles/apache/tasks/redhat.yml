@@ -9,15 +9,15 @@
     state: started
     enabled: yes
   become: yes
-- name: Open port 80
+- name: Open http & https ports
   firewalld:
-    service: http
+    service: "{{ item }}"
     permanent: true
     state: enabled
   become: yes
+  with_items:
+    - "http"
+    - "https"
+  notify:
+    - Restart firewalld service
   when: ansible_virtualization_type != 'docker'
-- name: Restart the firewalld service
-  service:
-    name: firewalld
-    state: restarted
-  become: yes

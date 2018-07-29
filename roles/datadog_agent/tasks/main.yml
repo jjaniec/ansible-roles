@@ -7,3 +7,11 @@
 #    tags: "datadog"
 #    become: yes
 #  when: datadog_api_key is defined and datadog_api_key != ""
+- name: Update datadog-agent config file
+  blockinfile:
+    block: "{{ lookup('template', 'datadog.yaml.j2') }}"
+    dest: /etc/datadog-agent/datadog.yaml
+    state: present
+  become: yes
+  notify:
+    - Restart datadog-agent service

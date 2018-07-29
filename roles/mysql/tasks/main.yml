@@ -37,7 +37,6 @@
   become: yes
   when: ansible_os_family|lower == 'redhat'
 
-
 - name: Start the MySQL service
   service:
     name: mysql

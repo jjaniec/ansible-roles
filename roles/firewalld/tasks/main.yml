@@ -1,0 +1,29 @@
+---
+- name: Start firewalld service
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Enable firewalld and keep port 22 open
+  firewalld:
+    port: 22
+    permanent: true
+    state: enabled
+    zone: public
+    immediate: yes
+  become: yes
+  ignore_errors: yes
+  when: ansible_virtualization_type != 'docker'
+# Here, immediate & ignore_errors is a workaround to continue
+# the execution of our role even if the connection is closed
+# as firewalld will do it for a very little moment
+
+- name: Open localhost connections
+  firewalld:
+    permanent: yes
+    zone: trusted
+    interface: lo
+    state: enabled
+  become: yes

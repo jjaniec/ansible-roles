@@ -4,8 +4,9 @@
     src: mod-status.conf.j2
     dest: /etc/apache2/mods-available/status.conf
   become: yes
+  when: ansible_os_family != 'RedHat'
 
-- name: Enable status apache module
+- name: Enable status apache module for debian systems
   file:
     src: "{{ item.path }}"
     dest: "{{ item.dest }}"
@@ -16,6 +17,16 @@
   become: yes
   notify:
     - Reload apache service
+  when: ansible_os_family != 'RedHat'
+
+- name: Enable status apache module for redhat systems
+  blockinfile:
+    path: /etc/httpd/conf/httpd.conf
+    block: "{{ lookup('template', 'httpd.conf.j2') }}"
+  become: yes
+  notify:
+    - Restart httpd service
+  when: ansible_os_family == 'RedHat'
 
 - name: Add apache integration to datadog config file
   template:
