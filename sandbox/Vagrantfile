@@ -1,0 +1,34 @@
+hosts = YAML.load_file('sandbox/vagrant_hosts.yml')
+
+def configure_node_ssh(node)
+	ssh_pubkey_path = "/home/jjaniec/.ssh/id_rsa.pub"
+
+	# Allow password auth
+	node.vm.provision "shell", inline: "sudo sed -i.bak \"s#PasswordAuthentication no#PasswordAuthentication yes#g\" /etc/ssh/sshd_config"
+
+	# Copy pubkey as authorized key on vm
+	node.vm.provision "file", source: ssh_pubkey_path, destination: "~/.ssh/authorized_keys"
+end
+
+Vagrant.configure(2) do |config|
+	hosts.each do |host|
+		config.vm.define host['name'] do |node|
+
+			# Set box and hostname
+			node.vm.box = host['box']
+			node.vm.hostname = host['name']
+
+			# Set ip and port redirects
+			node.vm.network "private_network", ip: host['ip']
+			node.vm.network "forwarded_port", guest: 22, host: host['port_ssh'], id: "ssh", auto_correct: true
+			node.vm.network "forwarded_port", guest: 80, host: host['port_http'], id: "http"
+
+			configure_node_ssh(node)
+
+			# Run commands to install python on remote host as needed by ansible
+			node.vm.provision "shell", inline: <<-EOF
+				#{host['python_install_cmd']}
+				EOF
+		end
+	end
+end
