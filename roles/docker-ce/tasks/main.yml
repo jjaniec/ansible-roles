@@ -1,0 +1,17 @@
+---
+- name: Run os specific dependencies for docker-ce installation
+  import_tasks: debian.yml
+  when: ansible_os_family|lower == 'debian'
+- import_tasks: redhat.yml
+  when: ansible_os_family|lower == 'redhat'
+
+- name: "Ensure docker is installed"
+  action: >
+    {{ ansible_pkg_mgr }} name=docker-ce state=present update_cache=yes
+  become: yes
+
+- name: Start docker service
+  service:
+    name: docker
+    state: started
+  become: yes

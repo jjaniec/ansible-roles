@@ -1,4 +1,4 @@
 ---
 dependencies:
-  - { role: ufw, tags: ufw, when: ansible_os_family != 'RedHat' }
+  - { role: ufw, tags: ufw, when: ansible_os_family == 'Debian' }
   - { role: firewalld, tags: firewalld, when: ansible_os_family == 'RedHat' }

@@ -4,10 +4,11 @@
     name: "{{ item }}"
     state: present
     update_cache: yes
+    upgrade: yes
   with_items:
     - php
-#    - php-apache
-#    - php70-mcrypt
-#    - php-ssh
-#    - php-gd
+    - php-apache
+    - php70-mcrypt
+    - php-ssh
+    - php-gd
   become: yes

@@ -1,1 +1,10 @@
 ---
+- name: Install MySQL & mysql-python on arch systems
+  pacman:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql
+    - mysql-python
+  become: yes

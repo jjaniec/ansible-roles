@@ -1,14 +1,10 @@
 ---
-- name: Install MySQL on debian systems
+- name: Install MySQL & python-mysqldb on debian systems
   apt:
-    name: mysql-server
+    name: "{{ item }}"
     state: present
     update_cache: yes
-  become: yes
-
-- name: Install python-mysqldb on debian systems
-  apt:
-    name: python-mysqldb
-    state: present
-    update_cache: yes
+  with_items:
+    - mysql-server
+    - python-mysqldb
   become: yes

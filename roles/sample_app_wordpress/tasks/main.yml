@@ -24,7 +24,7 @@
     path: "{{ wp_path }}"
   register: stat_result
 
-- name: Ensure php5-gd, libssh2-php and python-mysqldb are installed on debian systems
+- name: Ensure php7-gd, libssh2-php and python-mysqldb are installed on debian systems
   action: >
     {{ ansible_pkg_mgr }} name="{{ item }}" state=present
   with_items:
@@ -70,4 +70,7 @@
   template:
     src: wp-config.php.j2
     dest: /var/www/html/wordpress/wp-config.php
+  notify:
+    - Restart apache service
+    - Restart mysql service
   become: yes

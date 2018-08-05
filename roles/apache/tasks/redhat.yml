@@ -3,12 +3,14 @@
   yum:
     name: "httpd"
     state: present
+
 - name: Start the httpd service
   service:
     name: httpd
     state: started
     enabled: yes
   become: yes
+
 - name: Open http & https ports
   firewalld:
     service: "{{ item }}"

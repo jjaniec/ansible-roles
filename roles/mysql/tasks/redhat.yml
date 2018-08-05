@@ -6,18 +6,12 @@
   with_items:
     - http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
 
-- name: Install MySQL on redhat systems
+- name: Install MySQL & MySQL-python on redhat systems
   yum:
     name: "{{ item }}"
     state: present
     update_cache: yes
   with_items:
     - mysql-server
-  become: yes
-
-- name: install mysql-python on redhat systems
-  yum:
-    name: MySQL-python
-    state: present
-    update_cache: yes
+    - MySQL-python
   become: yes

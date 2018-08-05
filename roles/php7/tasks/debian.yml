@@ -17,4 +17,5 @@
     - php7.0-gd
     - php-ssh2
     - php7.0-mcrypt
+    - libapache2-mod-php7.0
   become: yes

@@ -1,0 +1,46 @@
+---
+- name: "Get system's current release"
+  shell: uname -r
+  register: uname
+
+- name: "Ensure linux-image-extra is installed on ubuntu trusty systems"
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "linux-image-extra-{{ uname.stdout }}"
+    - linux-image-extra-virtual
+  become: yes
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'trusty'
+
+- name: "Ensure packages to allow apt to use a repository over HTTPS are installed"
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  become: yes
+
+- name: Ensure python-requests is installed
+  pip:
+    name: requests[security]
+    state: present
+  become: yes
+
+- name: "Add docker gpg key"
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+    validate_certs: no
+  become: yes
+
+- name: "Add docker-ce ubuntu apt repo"
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+    state: present
+  become: yes
