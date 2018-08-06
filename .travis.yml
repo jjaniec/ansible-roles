@@ -3,4 +3,4 @@ notifications:
   email: false
 before_install:
     - sudo pip2 install ansible-lint
-script: ansible-lint $(find -name '*yml')
+script: ansible-lint --exclude "$(echo $HOME)/.ansible" $(find roles -name '*yml')

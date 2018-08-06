@@ -3,7 +3,9 @@
   service:
     name: "apache2"
     state: restarted
+  listen: Restart apache service
   become: yes
+  when: ansible_os_family != "RedHat"
 
 - name: Reload apache service
   service:
@@ -15,4 +17,6 @@
   service:
     name: "httpd"
     state: restarted
+  listen: Restart apache service
   become: yes
+  when: ansible_os_family == "RedHat"

@@ -1,5 +1,0 @@
----
-- hosts: all
-  roles:
-    - {role: '../roles/git', tags: 'git'}
-#ansible-playbook webserver.yml --tags "apache"
