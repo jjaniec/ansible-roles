@@ -1,0 +1,32 @@
+---
+- name: Ensure old docker versions are not present on centos systems
+  yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - docker
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-selinux
+    - docker-engine-selinux
+    - docker-engine
+  become: yes
+
+- name: Install docker dependencies on centos systems
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  become: yes
+
+- name: Install docker-ce yum repo on centos systems
+  shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+  become: yes

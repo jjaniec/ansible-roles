@@ -1,9 +1,10 @@
 ---
-- name: "Get system's current release"
+- name: "Get system's current release on trusty"
   shell: uname -r
   register: uname
+  when: ansible_distribution_release == "trusty"
 
-- name: "Ensure linux-image-extra is installed on ubuntu trusty systems"
+- name: "Ensure linux-image-extra dependencies are installed on ubuntu trusty systems"
   apt:
     name: "{{ item }}"
     state: present
@@ -26,21 +27,36 @@
     - software-properties-common
   become: yes
 
-- name: Ensure python-requests is installed
-  pip:
-    name: requests[security]
+#- name: Ensure python-requests is installed
+#  pip:
+#    name: requests[security]
+#    state: present
+#  become: yes
+#
+#- name: "Add docker gpg key"
+#  apt_key:
+#    url: https://download.docker.com/linux/ubuntu/gpg
+#    state: present
+#    validate_certs: no
+#  become: yes
+
+- name: Download docker repo gpg key # Doesn't work w/ get_url :(_
+  shell: "curl -fsSL -o /tmp/docker_gpg_key.gpg https://download.docker.com/linux/ubuntu/gpg"
+  args:
+    warn: false
+
+- name: Install docker gpg key
+  apt_key:
+    file: /tmp/docker_gpg_key.gpg
     state: present
   become: yes
 
-- name: "Add docker gpg key"
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-    validate_certs: no
-  become: yes
+- name: Get lsb_release -cs command return
+  shell: lsb_release -cs
+  register: lsb_release
 
 - name: "Add docker-ce ubuntu apt repo"
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ lsb_release.stdout }} stable"
     state: present
   become: yes

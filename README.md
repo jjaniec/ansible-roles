@@ -30,3 +30,11 @@ ansible-lint: [![Build Status](https://travis-ci.com/jjaniec/ansible-playbooks.s
 
 - Some changes may be needed if roles are used on different versions of ubuntu 14 and centos 7, the goal here was mainly
  to learn using the tool
+
+#### Sandbox mode
+
+```
+ansible-galaxy install -r requirements.yml
+sudo VAGRANT_VAGRANTFILE=sandbox/Vagrantfile
+ansible-playbook -i sandbox/hosts playbooks/x.yml
+```
