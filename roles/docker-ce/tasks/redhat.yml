@@ -30,3 +30,8 @@
 - name: Install docker-ce yum repo on centos systems
   shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
   become: yes
+
+- name: "Ensure docker is installed"
+  action: >
+    {{ ansible_pkg_mgr }} name=docker-ce state=present update_cache=yes
+  become: yes
