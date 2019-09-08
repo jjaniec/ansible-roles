@@ -1,0 +1,74 @@
+---
+- name: Create consul_install directory
+  file:
+    path: /tmp/consul_install
+    state: directory
+
+- name: Download consul linux zipped binary
+  get_url:
+    url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+    dest: "/tmp/consul_install/consul_{{ consul_version }}_linux_amd64.zip"
+
+- name: Unarchive consul binary
+  unarchive:
+    src: "/tmp/consul_install/consul_{{ consul_version }}_linux_amd64.zip"
+    dest: /tmp/consul_install
+    remote_src: yes
+
+- name: Move consul binary to /usr/local/bin
+  command: mv /tmp/consul_install/consul /usr/local/bin/
+
+- name: Update consul binary permissions & ownership
+  file:
+    path: /usr/local/bin/consul
+    owner: root
+    group: root
+    mode: "0655"
+
+- name: Check consul binary execution
+  command: /usr/local/bin/consul --version
+
+- name: Add consul user
+  user:
+    name: consul
+    shell: /bin/false
+    home: /etc/consul.d
+    system: yes
+
+- name: Update /opt/consul directory permissions & ownership
+  file:
+    path: /opt/consul
+    owner: consul
+    group: consul
+    recurse: yes
+    state: directory
+
+- name: Setup systemd consul service
+  template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
+
+- name: Set cap_net_bind_service=ep capability to consul binary
+  capabilities:
+    path: /usr/local/bin/consul
+    capability: cap_net_bind_service=ep
+    state: present
+
+- name: Create /etc/consul.d directory with ownership to consul:consul
+  file:
+    path: /etc/consul.d
+    state: directory
+    owner: consul
+    group: consul
+    recurse: yes
+
+- name: Insert 127.0.0.1 in dhclient.conf
+  blockinfile:
+    path: /etc/dhcp/dhclient.conf
+    block: |
+      prepend domain-name-servers 127.0.0.1;
+
+- name: Enable consul systemd service
+  systemd:
+    name: consul
+    enabled: yes

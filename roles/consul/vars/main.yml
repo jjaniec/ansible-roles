@@ -1,0 +1,7 @@
+---
+consul_version: "1.5.3"
+consul_bootstrap_expect: 1
+consul_cluster_app: "service"
+consul_cluster_name_separator: "-"
+consul_cluster_name_suffix: "consul"
+consul_data_dir: "/opt/consul/data"

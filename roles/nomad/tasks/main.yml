@@ -1,0 +1,10 @@
+---
+- name: Load variables from vars main file
+  include_vars:
+    dir: vars
+    files_matching: main.yml
+
+- name: Run os specific yml file for nomad installation
+  import_tasks: redhat.yml
+  when: ansible_os_family|lower == 'redhat'
+  become: yes

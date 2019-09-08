@@ -1,0 +1,61 @@
+---
+- name: Create nomad_install directory
+  file:
+    path: /tmp/nomad_install
+    state: directory
+
+- name: Download nomad linux zipped binary
+  get_url:
+    url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_amd64.zip"
+    dest: "/tmp/nomad_install/nomad_{{ nomad_version }}_linux_amd64.zip"
+
+- name: Unarchive nomad binary
+  unarchive:
+    src: "/tmp/nomad_install/nomad_{{ nomad_version }}_linux_amd64.zip"
+    dest: /tmp/nomad_install
+    remote_src: yes
+
+- name: Move nomad binary to /usr/local/bin
+  command: mv /tmp/nomad_install/nomad /usr/local/bin/
+
+- name: Update nomad binary permissions & ownership
+  file:
+    path: /usr/local/bin/nomad
+    owner: root
+    group: root
+    mode: "0655"
+
+- name: Check nomad binary execution
+  command: /usr/local/bin/nomad --version
+
+- name: Add nomad user
+  user:
+    name: nomad
+    shell: /bin/false
+    home: /etc/nomad.d
+    system: yes
+
+- name: Update /opt/nomad directory permissions & ownership
+  file:
+    path: /opt/nomad
+    owner: nomad
+    group: nomad
+    recurse: yes
+    state: directory
+
+- name: Setup nomad-server systemd service
+  template:
+    src: nomad.service.j2
+    dest: /etc/systemd/system/nomad.service
+
+- name: Create /etc/nomad.d directory
+  file:
+    path: /etc/nomad.d
+    mode: "700"
+    state: directory
+    recurse: yes
+
+- name: Enable nomad systemd service
+  systemd:
+    name: nomad
+    enabled: yes
