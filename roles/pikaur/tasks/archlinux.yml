@@ -1,0 +1,19 @@
+---
+# - name: "Ensure base-devel is installed"
+#   pacman:
+#     name: "base-devel"
+#     state: present
+#   become: yes
+
+- name: "Clone pikaur repository"
+  git:
+    repo: https://github.com/actionless/pikaur
+    dest: /tmp/pikaur
+    version: master
+
+- name: "Make pikaur pkg"
+  shell: cd /tmp/pikaur && makepkg -fsr
+
+- name: "Install pikaur pkg"
+  shell: pacman --noconfirm -U /tmp/pikaur/pikaur-git-*.pkg.tar.xz
+  become: yes

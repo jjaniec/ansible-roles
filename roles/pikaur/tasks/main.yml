@@ -1,0 +1,4 @@
+---
+- name: Run os specific yml file for apache installation
+  import_tasks: archlinux.yml
+  when: ansible_os_family|lower == 'archlinux'
