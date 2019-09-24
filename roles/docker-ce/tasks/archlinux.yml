@@ -1,0 +1,6 @@
+---
+- name: "Ensure docker package is installed"
+  pacman:
+    name: docker
+    state: present
+  become: yes

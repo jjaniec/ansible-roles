@@ -60,3 +60,8 @@
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ lsb_release.stdout }} stable"
     state: present
   become: yes
+
+- name: "Ensure docker is installed"
+  action: >
+    {{ ansible_pkg_mgr }} name=docker-ce state=present update_cache=yes
+  become: yes

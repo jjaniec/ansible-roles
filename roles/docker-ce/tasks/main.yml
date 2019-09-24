@@ -4,14 +4,12 @@
   when: ansible_os_family|lower == 'debian'
 - import_tasks: redhat.yml
   when: ansible_os_family|lower == 'redhat'
+- import_tasks: archlinux.yml
+  when: ansible_os_family|lower == 'archlinux'
 
-- name: "Ensure docker is installed"
-  action: >
-    {{ ansible_pkg_mgr }} name=docker-ce state=present update_cache=yes
-  become: yes
-
-- name: Start docker service
+- name: Enable & start docker service
   service:
     name: docker
     state: started
+    enabled: yes
   become: yes
