@@ -1,19 +1,25 @@
 ---
-# - name: "Ensure base-devel is installed"
-#   pacman:
-#     name: "base-devel"
-#     state: present
-#   become: yes
+- name: Ensure /opt dir exists
+  file:
+    path: /opt
+    state: directory
+  become: yes
 
-- name: "Clone pikaur repository"
+- name: "Clone pikaur repository to /opt"
   git:
     repo: https://github.com/actionless/pikaur
-    dest: /tmp/pikaur
+    dest: /opt/pikaur
     version: master
+  become: yes
 
-- name: "Make pikaur pkg"
-  shell: cd /tmp/pikaur && makepkg -fsr
+- name: Ensure pyalpm is installed
+  pacman:
+    name: pyalpm
+  become: yes
 
-- name: "Install pikaur pkg"
-  shell: pacman --noconfirm -U /tmp/pikaur/pikaur-git-*.pkg.tar.xz
+- name: Create symbolic link to dotfiles
+  file:
+    src: /opt/pikaur/pikaur.py
+    dest: /usr/bin/pikaur
+    state: link
   become: yes
