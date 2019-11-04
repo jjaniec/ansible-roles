@@ -1,0 +1,29 @@
+---
+- name: Create opt directory
+  file:
+    path: /opt
+    state: directory
+    mode: 0777
+  become: yes
+
+- name: Download cfssl linux bin
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/linux/cfssl
+    dest: /opt/cfssl
+    mode: 0700
+
+- name: Download cfssl linux bin
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/linux/cfssljson
+    dest: /opt/cfssljson
+    mode: 0700
+
+- name: Create symbolic links
+  file:
+    src: "/opt/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    state: link
+  with_items:
+    - cfssl
+    - cfssljson
+  become: yes

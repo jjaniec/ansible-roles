@@ -1,0 +1,8 @@
+---
+- name: Run os specific yml file for cfssl
+  import_tasks: debian.yml
+  when: ansible_os_family|lower == 'debian'
+# - import_tasks: redhat.yml
+#   when: ansible_os_family|lower == 'redhat'
+# - import_tasks: arch.yml
+#   when: ansible_os_family|lower == 'archlinux'
