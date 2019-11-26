@@ -1,0 +1,50 @@
+---
+- include_vars: "{{ ansible_os_family|lower }}.yml"
+
+- name: "Ensure crun dependencies are installed"
+  pacman:
+    name: "{{ deps_packages }}"
+    state: "present"
+  become: yes
+
+- name: Ensure CRUN_DEST_DIR dir exists
+  file:
+    path: "{{ CRUN_DEST_DIR }}"
+    state: directory
+  become: yes
+
+- name: "Clone crun repository to CRUN_DEST_DIR"
+  git:
+    repo: "{{ REPO_URL }}"
+    dest: "{{ CRUN_DEST_DIR }}/crun"
+    version: master
+  become: yes
+
+- name: "Configure crun build"
+  shell: "./autogen.sh && ./configure"
+  args:
+    chdir: "{{ CRUN_DEST_DIR }}/crun"
+  become: yes
+
+- name: "Make crun binary"
+  shell: "make"
+  args:
+    chdir: "{{ CRUN_DEST_DIR }}/crun"
+  become: yes
+
+- name: Change permissions of crun binary
+  file:
+    path: "{{ CRUN_DEST_DIR }}/crun/crun"
+    owner: "{{ CRUN_BIN_OWNER }}"
+    group: "{{ CRUN_BIN_GROUP }}"
+    mode: "{{ CRUN_BIN_MODE }}"
+  become: yes
+
+- name: Create symbolic link to path
+  file:
+    src: "{{ CRUN_DEST_DIR }}/crun/{{ CRUN_EXEC }}"
+    dest: "{{ SYMLINK_DEST }}"
+    owner: "{{ CRUN_BIN_OWNER }}"
+    group: "{{ CRUN_BIN_GROUP }}"
+    state: link
+  become: yes

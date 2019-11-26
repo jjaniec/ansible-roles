@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: git, tags: git }
+  - { role: crun, tags: crun, when: PODMAN_DEFAULT_RUNTIME == "crun" }

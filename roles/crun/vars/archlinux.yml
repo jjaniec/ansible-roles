@@ -1,0 +1,12 @@
+deps_packages:
+  - make
+  - gcc
+  - pkgconf
+  - libtool
+  - libcap
+  - libseccomp
+  - yajl
+  - go-md2man
+  - autoconf
+  - automake
+  # - libsystemd

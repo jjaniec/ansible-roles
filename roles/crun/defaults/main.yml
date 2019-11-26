@@ -1,0 +1,8 @@
+---
+REPO_URL: "https://github.com/containers/crun.git"
+CRUN_DEST_DIR: "/opt"
+CRUN_EXEC: "crun"
+SYMLINK_DEST: "/usr/bin/crun"
+CRUN_BIN_OWNER: "root"
+CRUN_BIN_GROUP: "wheel"
+CRUN_BIN_MODE: 0755

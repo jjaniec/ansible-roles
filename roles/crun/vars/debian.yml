@@ -1,0 +1,14 @@
+deps_packages:
+  - make
+  - gcc
+  - build-essential
+  - pkgconf
+  - libtool
+  - libsystemd-dev
+  - libcap-dev
+  - libseccomp-dev
+  - libyajl-dev
+  - go-md2man
+  - libtool
+  - autoconf
+  - automake

@@ -7,7 +7,7 @@
       - "docker-ee"
       - "docker-engine"
     state: "absent"
-  become: true
+  become: yes
   tags:
     - podman
 
@@ -15,7 +15,7 @@
   package:
     name:
       - podman
-  become: true
+  become: yes
   tags:
     - podman
 
