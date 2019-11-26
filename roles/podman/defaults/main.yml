@@ -1,0 +1,4 @@
+---
+PODMAN_DEFAULT_RUNTIME: "runc"
+PODMAN_DEFAULT_CNI_NETWORK: "podman"
+PODMAN_CNI_CONFIG_DIR: "/etc/cni/net.d/"

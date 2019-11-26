@@ -18,3 +18,15 @@
   become: true
   tags:
     - podman
+
+- name: Add default CNI configuration file
+  template:
+    src: "87-podman-bridge.conflist.j2"
+    dest: "{{ PODMAN_CNI_CONFIG_DIR }}/87-podman-bridge.conflist"
+  become: yes
+
+- name: Add libpod config file
+  template:
+    src: "libpod.conf.j2"
+    dest: "/usr/share/containers/libpod.conf"
+  become: yes

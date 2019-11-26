@@ -1,0 +1,5 @@
+---
+REPO_URL: "https://github.com/actionless/pikaur"
+PIKAUR_DEST_DIR: "/opt"
+PIKAUR_EXEC: "pikaur.py"
+SYMLINK_DEST: "/usr/bin/pikaur"
