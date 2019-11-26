@@ -1,0 +1,20 @@
+---
+- name: "Remove conflict Packages"
+  package:
+    name:
+      - "docker"
+      - "docker-ce"
+      - "docker-ee"
+      - "docker-engine"
+    state: "absent"
+  become: true
+  tags:
+    - podman
+
+- name: "Ensure podman package is installed"
+  package:
+    name:
+      - podman
+  become: true
+  tags:
+    - podman

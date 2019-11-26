@@ -1,14 +1,14 @@
 ---
-- name: Ensure /opt dir exists
+- name: Ensure PIAKUR_DEST_DIR dir exists
   file:
-    path: /opt
+    path: "{{ PIKAUR_DEST_DIR }}"
     state: directory
   become: yes
 
-- name: "Clone pikaur repository to /opt"
+- name: "Clone pikaur repository to PIKAUR_DEST_DIR"
   git:
-    repo: https://github.com/actionless/pikaur
-    dest: /opt/pikaur
+    repo: "{{ REPO_URL }}"
+    dest: "{{ PIKAUR_DEST_DIR }}/pikaur"
     version: master
   become: yes
 
@@ -17,9 +17,9 @@
     name: pyalpm
   become: yes
 
-- name: Create symbolic link to dotfiles
+- name: Create symbolic link to path
   file:
-    src: /opt/pikaur/pikaur.py
-    dest: /usr/bin/pikaur
+    src: "{{ PIKAUR_DEST_DIR }}/pikaur/{{ PIKAUR_EXEC }}"
+    dest: "{{ SYMLINK_DEST }}"
     state: link
   become: yes

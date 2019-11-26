@@ -1,0 +1,22 @@
+---
+- name: Add systemd telegraf monitoring service
+  template:
+    src: "{{ METHOD }}.telegraf.service.j2"
+    dest: "/etc/systemd/system/{{ METHOD }}.telegraf.service"
+  vars:
+    INFLUX_TOKEN: "{{ influxdbcloud_token }}"
+    INFLUX_CONFIG_URL: "{{ influxdbcloud_config_url }}"
+    METHOD_PATH: "/usr/bin/{{ METHOD }}"
+  become: yes
+
+- name: Pull telegraf image
+  shell: "{{ METHOD }} pull telegraf"
+  become: yes
+
+- name: Start & enable service at boot
+  systemd:
+    name: "{{ METHOD }}.telegraf"
+    state: started
+    daemon_reload: yes
+    enabled: true
+  become: yes

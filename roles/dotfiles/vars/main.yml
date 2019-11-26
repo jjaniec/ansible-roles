@@ -1,0 +1,8 @@
+---
+repo_url: https://github.com/jjaniec/dotfiles
+target_dir: /dotfiles
+dir_owner: root
+dir_group: dotfiles
+dir_mode: 0755
+non_root_users:
+  - jjaniec

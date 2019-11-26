@@ -1,0 +1,48 @@
+---
+- name: Clone dotfiles to /
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ target_dir }}"
+    force: yes
+  become: yes
+
+- name: Create dotfiles group
+  group:
+    name: "{{ dir_group }}"
+    state: present
+  become: yes
+
+- name: Add custom users to dotfiles group
+  user:
+    name: "{{ item }}"
+    groups: "{{ dir_group }}"
+    append: yes
+    state: present
+    createhome: yes
+  loop: "{{ non_root_users }}"
+  become: yes
+
+- name: Allow dotfiles group access to dotfiles
+  file:
+    path: "{{ target_dir }}"
+    mode: "{{ dir_mode }}"
+    owner: "{{ dir_owner }}"
+    group: "{{ dir_group }}"
+    state: directory
+    recurse: yes
+  become: yes
+
+- name: Create symbolic link to dotfiles/zsh/zshrc in custom_users home directories
+  file:
+    src: "{{ target_dir }}/zsh/zshrc"
+    dest: "/home/{{ item }}/.zshrc"
+    state: link
+  loop: "{{ non_root_users }}"
+  become: yes
+
+- name: Update owner of zshrc symlink in users home directories
+  file:
+    owner: "{{ item }}"
+    path: "/home/{{ item }}/.zshrc"
+  loop: "{{ non_root_users }}"
+  become: yes

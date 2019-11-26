@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: podman, tags: podman, when: METHOD == "podman" }
+  - { role: docker-ce, tags: docker-ce, when: METHOD == "docker" }
