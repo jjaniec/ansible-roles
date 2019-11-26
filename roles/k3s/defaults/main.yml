@@ -1,0 +1,4 @@
+---
+K3S_DOWNLOAD_URL: "https://github.com/rancher/k3s/releases/download/v1.0.0/k3s-arm64"
+K3S_DEST_DIR: "/opt"
+SYMLINK_DEST: "/usr/bin/k3s"

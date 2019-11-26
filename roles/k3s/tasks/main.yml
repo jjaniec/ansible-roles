@@ -1,0 +1,22 @@
+---
+- name: Ensure K3S_DEST_DIR directory exists
+  file:
+    path: "{{ K3S_DEST_DIR }}"
+    state: directory
+    group: wheel
+    mode: 0775
+  become: yes
+
+- name: Download k3s release
+  get_url:
+    url: "{{ K3S_DOWNLOAD_URL }}"
+    dest: "{{ K3S_DEST_DIR }}/k3s"
+    mode: 0755
+  become: yes
+
+- name: Create symbolic link to path
+  file:
+    src: "{{ K3S_DEST_DIR }}/k3s"
+    dest: "{{ SYMLINK_DEST }}"
+    state: link
+  become: yes
