@@ -6,9 +6,10 @@ TimeoutStartSec=10
 Restart=always
 RestartSec=10s
 Type=simple
+User=root
 NotifyAccess=all
-ExecStartPre={{ METHOD_PATH }} pull telegraf
-ExecStart={{ METHOD_PATH }} run \
+ExecStartPre=sudo {{ METHOD_PATH }} pull telegraf
+ExecStart=sudo {{ METHOD_PATH }} run \
   -e "INFLUX_TOKEN={{ INFLUX_TOKEN }}" \
   -e HOST_PROC=/host/proc \
   -v "/proc:/host/proc:ro" \

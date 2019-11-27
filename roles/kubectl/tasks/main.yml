@@ -1,8 +1,21 @@
 ---
-- name: Run os specific yml file for cfssl
-  import_tasks: debian.yml
-  when: ansible_os_family|lower == 'debian'
-# - import_tasks: redhat.yml
-#   when: ansible_os_family|lower == 'redhat'
-# - import_tasks: arch.yml
-#   when: ansible_os_family|lower == 'archlinux'
+- name: Create opt directory
+  file:
+    path: /opt
+    state: directory
+    mode: 0777
+  become: yes
+
+- name: Download kubectl linux bin
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/v{{ kubectl_version }}/bin/{{ ansible_system | lower }}/{{ kubectl_arch }}/kubectl"
+    dest: /opt/kubectl
+    mode: 0700
+  become: yes
+
+- name: Create /usr/local/bin/kubectl symbolic link
+  file:
+    src: "/opt/kubectl"
+    dest: "/usr/local/bin/kubectl"
+    state: link
+  become: yes

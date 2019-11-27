@@ -1,0 +1,21 @@
+---
+- include_vars: ../../download/defaults/main.yml
+- include_vars: ../../server/defaults/main.yml
+
+- name: Add k3s-agent service
+  template:
+    src: k3s-agent.service.j2
+    dest: "/etc/systemd/system/k3s-agent.service"
+  vars:
+    K3S: "{{ SYMLINK_DEST }}"
+    K3S_SERVER: "{{ K3S_SERVER }}"
+    K3S_TOKEN: "{{ K3S_TOKEN }}"
+  become: yes
+
+- name: Start & Enable k3s agent service
+  service:
+    name: k3s-agent.service
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes

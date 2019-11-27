@@ -1,0 +1,29 @@
+---
+- include_vars: ../../download/defaults/main.yml
+
+- name: Add k3s-server service
+  template:
+    src: k3s-server.service.j2
+    dest: "/etc/systemd/system/k3s-server.service"
+  vars:
+    K3S: "{{ SYMLINK_DEST }}"
+  become: yes
+
+- name: Start & Enable k3s server service
+  service:
+    name: k3s-server
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+
+- name: Wait for token creation
+  wait_for:
+    path: /var/lib/rancher/k3s/server/node-token
+  become: yes
+
+- name: Save master token
+  slurp:
+    src: /var/lib/rancher/k3s/server/node-token
+  register: k3s_master_token
+  become: yes

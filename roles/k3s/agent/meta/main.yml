@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: ../k3s/download, tags: k3s/download }
