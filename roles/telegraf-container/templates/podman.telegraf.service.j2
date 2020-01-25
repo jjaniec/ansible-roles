@@ -11,11 +11,14 @@ NotifyAccess=all
 ExecStartPre=sudo {{ METHOD_PATH }} pull telegraf
 ExecStart=sudo {{ METHOD_PATH }} run \
   -e "INFLUX_TOKEN={{ INFLUX_TOKEN }}" \
+  -e "INFLUX_ORGANIZATION={{ INFLUX_ORGANIZATION }}" \
+  -e "INFLUX_BUCKET={{ INFLUX_BUCKET }}" \
   -e HOST_PROC=/host/proc \
   -v "/proc:/host/proc:ro" \
   -v "/etc/hostname:/etc/hostname:ro" \
+  -v "{{ TELEGRAF_CONFIG_PATH }}:/etc/telegraf.conf" \
   --net=host \
-  telegraf --config {{ INFLUX_CONFIG_URL }}
+  telegraf --config /etc/telegraf.conf
 
 [Install]
 WantedBy=multi-user.target

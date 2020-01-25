@@ -1,4 +1,6 @@
 ---
 METHOD: docker
 INFLUX_TOKEN: "token"
-INFLUX_CONFIG_URL: "INFLUX_CONFIG_URL"
+INFLUX_BUCKET: "bucket"
+INFLUX_ORGANIZATION: "organization"
+TELEGRAF_CONFIG_PATH: "/etc/telegraf.conf"

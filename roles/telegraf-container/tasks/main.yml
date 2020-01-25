@@ -4,8 +4,10 @@
     src: "{{ METHOD }}.telegraf.service.j2"
     dest: "/etc/systemd/system/{{ METHOD }}.telegraf.service"
   vars:
-    INFLUX_TOKEN: "{{ influxdbcloud_token }}"
-    INFLUX_CONFIG_URL: "{{ influxdbcloud_config_url }}"
+    INFLUX_TOKEN: "{{ INFLUX_TOKEN }}"
+    INFLUX_BUCKET: "{{ INFLUX_BUCKET }}"
+    INFLUX_ORGANIZATION: "{{ INFLUX_ORGANIZATION }}"
+    TELEGRAF_CONFIG_PATH: "{{ TELEGRAF_CONFIG_PATH }}"
     METHOD_PATH: "/usr/bin/{{ METHOD }}"
   become: yes
 
